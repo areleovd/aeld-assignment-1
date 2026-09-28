@@ -3,18 +3,22 @@
 # Accept arguments: $1: path to dir on file (filesdir)
 # $2: a text to string to be searched within the files (searchstr)
 
-filesdir = $1
-searchstr = $2
+filesdir=$1
+searchstr=$2
 
-if [ [-z "$filesdir" || -z "$searchstr" ]]; then
+if [[ -z "$filesdir" || -z "$searchstr" ]]; then
     echo "Specify arguments first!"
-    return 1
-elif [ -d "$filesdir" ]; then
+    exit 1
+elif [[ ! -d "$filesdir" ]]; then
     echo "filesdir does not represent a directory!"
-    return 1
+    exit 1
 else
     # Search all files listed in the directory and subdirectories
     # In these files, go through each line to find the specified word from argument 2
+    totalfiles=$(find "$filesdir" -type f | wc -l)
+    totallines=$(grep -oR -w "$searchstr" "$filesdir" | wc -l)
+
+    echo "The number of files are $totalfiles and the number of matching lines are $totallines"
 fi
 
 

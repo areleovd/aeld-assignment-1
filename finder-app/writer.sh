@@ -1,8 +1,18 @@
+#!/bin/bash
+
 # Accept two arguments
 # $1: full path to a file including filename on the filesystem (writefile)
 # $2: text string to be written (writestr)
 
+writefile=$1
+writestr=$2
 
+if [[ -z "$writefile" || -z "$writestr" ]]; then
+    echo "Specify arguments first"
+    exit 1
+else
+    touch "$writefile" && echo "$writestr" >> "$writefile"
+fi
 
 
 # exits with value 1 error and print statements if any of the arguments were not specified
